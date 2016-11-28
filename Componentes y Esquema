@@ -1,0 +1,32 @@
+Componentes
+
+1- ESP8266-12E
+2- DS18B20
+3- 5V a 3.3V
+4- Trafo de 220V a 5V
+5- 3 resistencia 10k
+6- resistencia 4.7k
+
+Esquema
+ESP8266-12E
+  - VCC > 3.3V
+  - EN > 10k > 3.3V
+  - GND > GND
+  - GPIO15 > 10k > GND
+  - TX/RX (con cables utilizados para la carga de código)
+  - GPIO0 > 10k > GND (unicamente conectar para cargar el código)
+  - GPIO2 > Cable sumergible (a través de una resistencia de 4,7k)
+  
+ DS18B20
+  - Datos(Amarillo)  > 4,7k > VCC(Rojo)
+                     > GPIO2
+  - VCC (Rojo)  > 4,7k > Datos(Amarillo)
+                > 3.3V
+  - GND (Gris/Negro) >  GND
+  
+  5V a 3.3V
+    - IN > 5V
+    - OUT > 3.3V
+    - GND > GND
+   
+  
