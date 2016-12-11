@@ -13,9 +13,9 @@ DallasTemperature sensors(&ourWire); //Se llama a la librería DallasTemperature
 
 String pral = "<html>"
               "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>"
-              "<title>ASTUNA-01 - WIFI CONFIG</title> <style type='text/css'> body,td,th { color: #036; } body { background-color: #999; } </style> </head>"
+              "<title>Astuna-01 - WiFi Config</title> <style type='text/css'> body,td,th { color: #036; } body { background-color: #999; } </style> </head>"
               "<body> "
-              "<h1>ASTUNA-01 - WIFI CONFIG</h1><br>"
+              "<h1>Astuna-01 - WiFi Config</h1><br>"
               "<form action='config' method='get' target='pantalla'>"
               "<fieldset align='left' style='border-style:solid; border-color:#336666; width:200px; height:180px; padding:10px; margin: 5px;'>"
               "<legend><strong>Configurar WI-FI</strong></legend>"
@@ -39,9 +39,11 @@ String pass_leido;
 int ssid_tamano = 0;
 int pass_tamano = 0;
 
-const char http_site[] = "argentuino.atwebpages.com";
+const char http_site[] = "astun.com.ar";
 const int http_port = 80;
-String serial="ASTUNA-010001";
+
+String serial="010001";
+
 String temperaturaString;
 
 String arregla_simbolos(String a) {
@@ -171,10 +173,13 @@ void intervalo(long intervalo){
 }
 
 void grabarTemperatura(){
-    
+          
+    sensors.requestTemperatures();       //Prepara el sensor para la lectura
+    temperaturaString=String(sensors.getTempCByIndex(0));
+
     // Make an HTTP GET request
-    client.print("GET /ajax/sqlinsert.php?");
-    client.print("Temperatura="+temperaturaString+"&Serial="+serial);
+    client.print("GET /astuna/sqlinsert.php?");
+    client.print("serial="+serial+"&temperatura="+temperaturaString);
     client.println(" HTTP/1.1");
     client.print("Host: ");
     client.println(http_site);
@@ -187,7 +192,7 @@ void grabarTemperatura(){
 void setup() {
   Serial.begin(115200);
   EEPROM.begin(4096);
-  WiFi.softAP("ASTUNA-010001");      //Nombre que se mostrara en las redes wifi
+  WiFi.softAP("ASTUNA01-0001");      //Nombre que se mostrara en las redes wifi
   pinMode(2,INPUT);
   sensors.begin();              //Se inician los sensores
     
@@ -211,15 +216,12 @@ void loop() {
 
   if(WiFi.status() == WL_CONNECTED){
 
-  sensors.requestTemperatures();       //Prepara el sensor para la lectura
-  temperaturaString=String(sensors.getTempCByIndex(0));
-
     if(client.connect(http_site, http_port)>0){
-      
-      Serial.println("Conectado a ASTUNA-01");
+
+      Serial.println("Conectado a Astuna-01");
       delay(500);
       grabarTemperatura();
-      intervalo(60000); //en milisegundos
+      intervalo(10000); //en milisegundos
       
       } else {
       
