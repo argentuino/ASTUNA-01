@@ -29,4 +29,11 @@ ESP8266-12E
     - OUT > 3.3V
     - GND > GND
    
-  
+BD
+MySQL
+
+Tabla Astuna01
+id int a_i pk
+serial varchar(6)
+fecha currenttime
+temperatura float
